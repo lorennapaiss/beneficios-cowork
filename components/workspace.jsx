@@ -370,7 +370,11 @@ export function Workspace() {
         : [...current, created];
     });
     setMemberDraft(emptyMember);
-    toast("Convite enviado por email.");
+    if (created.emailSent === false) {
+      toast("Acesso criado. Email não enviado — peça ao usuário para entrar com Google.", "info");
+    } else {
+      toast("Acesso criado e convite enviado por email.");
+    }
   }
 
   async function updateMemberRole(email, role) {
