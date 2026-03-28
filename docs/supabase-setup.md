@@ -86,6 +86,18 @@ set role = 'supervisor'
 where email = 'seu-email@empresa.com';
 ```
 
+## 8. Convites por e-mail
+
+O sistema agora envia convite por e-mail ao criar um novo acesso na plataforma.
+
+Para isso funcionar com confiabilidade em produção:
+
+1. Abra `Authentication > Email Templates` no Supabase.
+2. Configure um SMTP próprio em `Settings` do projeto.
+3. Teste o envio de convite antes de liberar para o time.
+
+Sem SMTP configurado, o Supabase pode limitar ou bloquear envios para alguns cenários.
+
 ## Observação de segurança
 
 Neste momento a aplicação usa rotas de servidor com `service_role` no backend para simplificar o MVP compartilhado. Isso funciona para colocar o time para operar, mas o próximo passo recomendado é autenticação com perfis e políticas de acesso por usuário.

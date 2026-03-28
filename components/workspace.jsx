@@ -12,7 +12,7 @@ import {
 } from "../lib/seed";
 
 const STORAGE_KEY = "beneficios-cowork-state-v1";
-const views = ["Início", "Tarefas", "Kanban", "Rotinas", "Documentos", "Indicadores"];
+const views = ["Início", "Tarefas", "Kanban", "Rotinas", "Documentos", "Indicadores", "Configurações"];
 const statuses = ["Não iniciada", "Em andamento", "Aguardando retorno", "Aguardando aprovação", "Bloqueada", "Concluída"];
 const priorities = ["Baixa", "Média", "Alta", "Crítica"];
 const emptyTask = {
@@ -41,6 +41,12 @@ const emptyRoutine = {
   name: "",
   rule: "",
   sla: "",
+};
+
+const emptyMember = {
+  full_name: "",
+  email: "",
+  role: "analyst",
 };
 
 function normalize(text) {
@@ -85,6 +91,7 @@ export function Workspace() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [routines, setRoutines] = useState(seedTemplates);
   const [routineDraft, setRoutineDraft] = useState(emptyRoutine);
+  const [memberDraft, setMemberDraft] = useState(emptyMember);
 
   useEffect(() => {
     let active = true;
@@ -342,6 +349,46 @@ export function Workspace() {
     setDocumentDraft(emptyDocument);
     setSelectedFile(null);
     setSyncMessage("Documento salvo.");
+  }
+
+  async function inviteMember(event) {
+    event.preventDefault();
+    if (!memberDraft.full_name || !memberDraft.email) return;
+
+    const response = await fetch("/api/team/invite", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(memberDraft),
+    });
+
+    if (!response.ok) {
+      setSyncMessage("Falha ao convidar membro.");
+      return;
+    }
+
+    const created = await response.json();
+    setMembers((current) => {
+      const exists = current.some((member) => member.email === created.email);
+      return exists ? current.map((member) => member.email === created.email ? created : member) : [...current, created];
+    });
+    setMemberDraft(emptyMember);
+    setSyncMessage("Convite enviado por email.");
+  }
+
+  async function updateMemberRole(email, role) {
+    const response = await fetch(`/api/team/${encodeURIComponent(email)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role }),
+    });
+
+    if (!response.ok) {
+      setSyncMessage("Falha ao atualizar permissão.");
+      return;
+    }
+
+    setMembers((current) => current.map((member) => member.email === email ? { ...member, role } : member));
+    setSyncMessage("Permissão atualizada.");
   }
 
   async function createRoutine(event) {
@@ -763,6 +810,72 @@ export function Workspace() {
             <MetricCard label="Vencidas" value={metrics.overdue} />
             <MetricCard label="Concluídas" value={metrics.completed} />
             <MetricCard label="SLA no prazo" value={`${metrics.onTimeRate}%`} />
+          </section>
+        ) : null}
+
+        {currentView === "Configurações" ? (
+          <section className="simple-grid two">
+            <section className="simple-panel">
+              <div className="table-head">
+                <h3>Convidar membro</h3>
+              </div>
+              {canSeeAll ? (
+                <form className="task-form" onSubmit={inviteMember}>
+                  <label>
+                    Nome
+                    <input value={memberDraft.full_name} onChange={(event) => setMemberDraft((current) => ({ ...current, full_name: event.target.value }))} />
+                  </label>
+                  <label>
+                    Email
+                    <input type="email" value={memberDraft.email} onChange={(event) => setMemberDraft((current) => ({ ...current, email: event.target.value }))} />
+                  </label>
+                  <label>
+                    Permissão
+                    <select value={memberDraft.role} onChange={(event) => setMemberDraft((current) => ({ ...current, role: event.target.value }))}>
+                      <option value="analyst">Colaborador</option>
+                      <option value="supervisor">Supervisão</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </label>
+                  <button type="submit" className="primary">Criar login e enviar email</button>
+                </form>
+              ) : (
+                <div className="simple-item">
+                  <strong>Somente supervisão pode gerenciar acessos.</strong>
+                </div>
+              )}
+            </section>
+
+            <section className="simple-panel">
+              <div className="table-head">
+                <h3>Permissões do time</h3>
+              </div>
+              <div className="simple-list">
+                {members.map((member) => (
+                  <div key={member.email} className="simple-item">
+                    <div className="item-head">
+                      <div>
+                        <strong>{member.full_name}</strong>
+                        <small>{member.email}</small>
+                      </div>
+                      {canSeeAll ? (
+                        <select
+                          className="role-select"
+                          value={member.role}
+                          onChange={(event) => updateMemberRole(member.email, event.target.value)}
+                        >
+                          <option value="analyst">Colaborador</option>
+                          <option value="supervisor">Supervisão</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      ) : (
+                        <span className="pill neutral">{member.role}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
           </section>
         ) : null}
       </main>

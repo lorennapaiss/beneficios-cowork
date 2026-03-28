@@ -500,6 +500,10 @@ td {
   white-space: nowrap;
 }
 
+.role-select {
+  min-width: 150px;
+}
+
 .indicator-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
