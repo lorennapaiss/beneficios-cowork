@@ -102,6 +102,21 @@ export function Workspace() {
     let active = true;
 
     async function loadWorkspace() {
+      // Verificação por aba: sessionStorage é exclusivo por aba e some ao fechar
+      const hasSupabase = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
+      if (hasSupabase) {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("auth") === "1") {
+          sessionStorage.setItem("bc-tab", "1");
+          window.history.replaceState({}, "", "/");
+        } else if (!sessionStorage.getItem("bc-tab")) {
+          const supabase = createSupabaseBrowserClient();
+          await supabase.auth.signOut();
+          window.location.href = "/login";
+          return;
+        }
+      }
+
       try {
         const response = await fetch("/api/workspace", { cache: "no-store" });
         if (!response.ok) throw new Error("Falha ao buscar workspace");

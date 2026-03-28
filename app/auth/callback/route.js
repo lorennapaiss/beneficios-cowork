@@ -11,5 +11,7 @@ export async function GET(request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(new URL(next, requestUrl.origin));
+  // Adiciona ?auth=1 para o workspace marcar a aba como autenticada via sessionStorage
+  const redirectPath = next === "/" ? "/?auth=1" : next;
+  return NextResponse.redirect(new URL(redirectPath, requestUrl.origin));
 }
