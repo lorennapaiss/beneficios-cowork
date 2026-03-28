@@ -1,27 +1,16 @@
 import { NextResponse } from "next/server";
-import { deleteDocumentRecord, getWorkspaceData } from "../../../../lib/server-data";
-import { hasSupabaseEnv } from "../../../../lib/supabase";
-import { createSupabaseServerClient } from "../../../../lib/supabase-server";
+import { getAuthContext } from "../../../../lib/api-utils";
+import { deleteDocumentRecord } from "../../../../lib/server-data";
 
 export async function DELETE(request, { params }) {
-  if (!hasSupabaseEnv()) {
-    return NextResponse.json({ error: "Supabase não configurado." }, { status: 503 });
-  }
-
   try {
-    const supabase = await createSupabaseServerClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
-    }
-
-    const workspace = await getWorkspaceData(user);
-    await deleteDocumentRecord(params.id, user, workspace.profile);
+    const { user, profile } = await getAuthContext();
+    await deleteDocumentRecord(params.id, user, profile);
     return NextResponse.json({ ok: true });
   } catch (error) {
-    return NextResponse.json({ error: "Falha ao excluir documento.", details: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status || 500 }
+    );
   }
 }

@@ -127,10 +127,15 @@ button {
   padding: 11px 12px;
 }
 
-.nav-item.active,
 .nav-item:hover {
   background: rgba(255, 252, 246, 0.9);
   color: var(--text);
+}
+
+.nav-item.active {
+  background: var(--teal-soft);
+  color: var(--teal);
+  font-weight: 600;
 }
 
 .sidebar-panel {
@@ -340,7 +345,19 @@ textarea {
 }
 
 .column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 12px;
+}
+
+.column-count {
+  background: var(--neutral-soft);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .column-body {
@@ -391,6 +408,11 @@ textarea {
 .pill.nao-iniciada,
 .pill.neutral {
   color: #4d463a;
+}
+
+.pill.baixa {
+  background: var(--green-soft);
+  color: var(--green);
 }
 
 .pill.alta,
@@ -502,6 +524,12 @@ td {
 
 .role-select {
   min-width: 150px;
+}
+
+.member-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .indicator-row {
@@ -616,4 +644,135 @@ td {
   .document-composer {
     max-width: none;
   }
+}
+
+/* ── Toast notifications ────────────────────────────────── */
+.toast-stack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: grid;
+  gap: 10px;
+  z-index: 1000;
+  max-width: 340px;
+}
+
+.toast {
+  padding: 13px 18px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  animation: toast-in 0.22s ease;
+}
+
+.toast-success {
+  background: var(--teal);
+  color: white;
+}
+
+.toast-error {
+  background: var(--red);
+  color: white;
+}
+
+.toast-info {
+  background: var(--surface-strong);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Confirm dialog ─────────────────────────────────────── */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: grid;
+  place-items: center;
+  z-index: 999;
+  animation: fade-in 0.15s ease;
+}
+
+.confirm-dialog {
+  background: var(--surface-strong);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 380px;
+  width: calc(100% - 32px);
+  animation: slide-up 0.2s ease;
+}
+
+.confirm-message {
+  margin: 0 0 20px;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.danger-btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-weight: 700;
+  background: var(--red);
+  color: white;
+  cursor: pointer;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Table overdue row ──────────────────────────────────── */
+.overdue-row td {
+  background: var(--red-soft);
+}
+
+/* ── Button interactions ────────────────────────────────── */
+.primary,
+.secondary,
+.ghost,
+.mini-danger,
+.danger-btn,
+.nav-item {
+  transition: opacity 0.15s ease, transform 0.1s ease, background 0.15s ease;
+}
+
+.primary:hover,
+.secondary:hover,
+.danger-btn:hover {
+  opacity: 0.88;
+}
+
+.primary:active,
+.secondary:active,
+.ghost:active,
+.mini-danger:active,
+.danger-btn:active {
+  transform: scale(0.97);
+}
+
+.primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
 }
