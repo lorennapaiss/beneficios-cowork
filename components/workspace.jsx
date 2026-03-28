@@ -542,7 +542,6 @@ export function Workspace() {
               <div className="hero-meta">
                 <span className={`mode-dot ${dataMode === "supabase" ? "live" : "demo"}`}></span>
                 <small>{dataMode === "supabase" ? "Modo colaborativo ativo" : "Modo demo local"}</small>
-                {profile ? <small>{canSeeAll ? "Supervisão vê tudo" : "Você vê apenas suas tarefas"}</small> : null}
               </div>
             </div>
 
