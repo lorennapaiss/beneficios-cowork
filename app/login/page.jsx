@@ -33,9 +33,7 @@ export default function LoginPage() {
         <div className="brand-mark large">BC</div>
         <p className="eyebrow">Benefícios Cowork</p>
         <h1>Acesse com sua conta Google</h1>
-        <p className="login-copy">
-          Cada pessoa do time verá suas tarefas. Supervisão terá visibilidade completa da operação.
-        </p>
+
         <button className="primary wide" onClick={signInWithGoogle} disabled={loading}>
           {loading ? "Redirecionando..." : "Entrar com Google"}
         </button>
