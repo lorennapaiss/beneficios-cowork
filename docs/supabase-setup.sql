@@ -111,3 +111,9 @@ create trigger routine_templates_set_updated_at
 before update on routine_templates
 for each row
 execute function set_updated_at();
+
+-- Índices para performance
+create index if not exists idx_tasks_owner_email on tasks (owner_email);
+create index if not exists idx_tasks_created_by_email on tasks (created_by_email);
+create index if not exists idx_tasks_due_date on tasks (due_date asc nulls last);
+create index if not exists idx_activity_logs_created_at on activity_logs (created_at desc);
