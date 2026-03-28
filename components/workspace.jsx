@@ -75,6 +75,11 @@ export function Workspace() {
   const [toasts, setToasts] = useState([]);
   const [confirmState, setConfirmState] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [showGmailModal, setShowGmailModal] = useState(false);
+  const [gmailMessages, setGmailMessages] = useState([]);
+  const [gmailLoading, setGmailLoading] = useState(false);
+  const [gmailSelected, setGmailSelected] = useState(new Set());
+  const [gmailImporting, setGmailImporting] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
   const [profile, setProfile] = useState(null);
   const [members, setMembers] = useState(seedMembers);
@@ -305,6 +310,87 @@ export function Workspace() {
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signOut();
     window.location.href = "/login";
+  }
+
+  async function openGmailImport() {
+    setGmailLoading(true);
+    setGmailMessages([]);
+    setGmailSelected(new Set());
+    setShowGmailModal(true);
+
+    try {
+      const supabase = createSupabaseBrowserClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const accessToken = session?.provider_token;
+
+      if (!accessToken) {
+        toast("Token do Gmail não encontrado. Faça logout e login novamente.", "error");
+        setShowGmailModal(false);
+        return;
+      }
+
+      const response = await fetch("/api/gmail/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast(data.error || "Falha ao buscar emails.", "error");
+        setShowGmailModal(false);
+        return;
+      }
+
+      setGmailMessages(data.messages || []);
+    } finally {
+      setGmailLoading(false);
+    }
+  }
+
+  async function importGmailSelected() {
+    if (!gmailSelected.size) return;
+    setGmailImporting(true);
+
+    try {
+      const selected = gmailMessages.filter((m) => gmailSelected.has(m.id));
+      const response = await fetch("/api/gmail/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: selected }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast(data.error || "Falha ao importar emails.", "error");
+        return;
+      }
+
+      setTasks((current) => [...data.tasks, ...current]);
+      setShowGmailModal(false);
+      setCurrentView("Kanban");
+      toast(`${data.count} tarefa${data.count !== 1 ? "s" : ""} importada${data.count !== 1 ? "s" : ""} do Gmail.`);
+    } finally {
+      setGmailImporting(false);
+    }
+  }
+
+  function toggleGmailMessage(id) {
+    setGmailSelected((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAllGmailMessages() {
+    if (gmailSelected.size === gmailMessages.length) {
+      setGmailSelected(new Set());
+    } else {
+      setGmailSelected(new Set(gmailMessages.map((m) => m.id)));
+    }
   }
 
   const ownerOptions = members.length ? members : seedMembers;
@@ -544,6 +630,9 @@ export function Workspace() {
               <button className="primary" onClick={() => setShowComposer((current) => !current)}>
                 Nova tarefa
               </button>
+              {dataMode === "supabase" ? (
+                <button className="secondary" onClick={openGmailImport}>Gmail</button>
+              ) : null}
               {dataMode === "supabase" ? (
                 <button className="ghost" onClick={signOut}>Sair</button>
               ) : null}
@@ -922,6 +1011,65 @@ export function Workspace() {
           ) : null}
         </main>
       </div>
+
+      {showGmailModal && (
+        <div className="confirm-overlay" onClick={() => setShowGmailModal(false)}>
+          <div className="gmail-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="gmail-modal-head">
+              <div>
+                <h3>Importar do Gmail</h3>
+                <small>Emails não lidos — selecione os que virarão tarefas</small>
+              </div>
+              <button className="ghost" onClick={() => setShowGmailModal(false)}>Fechar</button>
+            </div>
+
+            {gmailLoading ? (
+              <div className="gmail-loading">Buscando emails...</div>
+            ) : gmailMessages.length === 0 ? (
+              <div className="gmail-empty">Nenhum email não lido encontrado.</div>
+            ) : (
+              <>
+                <div className="gmail-select-all">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={gmailSelected.size === gmailMessages.length}
+                      onChange={toggleAllGmailMessages}
+                    />
+                    Selecionar todos ({gmailMessages.length})
+                  </label>
+                </div>
+                <div className="gmail-list">
+                  {gmailMessages.map((msg) => (
+                    <label key={msg.id} className={`gmail-item ${gmailSelected.has(msg.id) ? "selected" : ""}`}>
+                      <input
+                        type="checkbox"
+                        checked={gmailSelected.has(msg.id)}
+                        onChange={() => toggleGmailMessage(msg.id)}
+                      />
+                      <div className="gmail-item-body">
+                        <strong>{msg.subject}</strong>
+                        <span className="gmail-from">{msg.fromName || msg.fromEmail}</span>
+                        <span className="gmail-snippet">{msg.snippet}</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+                <div className="gmail-actions">
+                  <span className="gmail-count">{gmailSelected.size} selecionado{gmailSelected.size !== 1 ? "s" : ""}</span>
+                  <button
+                    className="primary"
+                    onClick={importGmailSelected}
+                    disabled={!gmailSelected.size || gmailImporting}
+                  >
+                    {gmailImporting ? "Importando..." : "Importar selecionadas"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <ToastStack toasts={toasts} />
 

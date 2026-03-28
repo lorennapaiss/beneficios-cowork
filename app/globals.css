@@ -747,6 +747,134 @@ td {
   background: var(--red-soft);
 }
 
+/* ── Gmail import modal ─────────────────────────────────── */
+.gmail-modal {
+  background: var(--surface-strong);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  border-radius: 24px;
+  padding: 28px;
+  width: min(620px, calc(100vw - 32px));
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slide-up 0.2s ease;
+}
+
+.gmail-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gmail-modal-head h3 {
+  margin: 0 0 4px;
+  letter-spacing: -0.03em;
+}
+
+.gmail-modal-head small {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.gmail-loading,
+.gmail-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 32px 0;
+  font-size: 0.9rem;
+}
+
+.gmail-select-all {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.gmail-select-all label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.gmail-list {
+  display: grid;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 380px;
+  padding-right: 4px;
+}
+
+.gmail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.gmail-item.selected {
+  background: var(--teal-soft);
+  border-color: var(--teal);
+}
+
+.gmail-item input[type="checkbox"] {
+  width: auto;
+  margin-top: 2px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  padding: 0;
+}
+
+.gmail-item-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.gmail-item-body strong {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gmail-from {
+  font-size: 0.8rem;
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.gmail-snippet {
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gmail-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.gmail-count {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
 /* ── Button interactions ────────────────────────────────── */
 .primary,
 .secondary,

@@ -16,6 +16,7 @@ export default function LoginPage() {
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
+          scopes: "email profile https://www.googleapis.com/auth/gmail.readonly",
         },
       });
 
