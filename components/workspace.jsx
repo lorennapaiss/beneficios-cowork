@@ -16,6 +16,30 @@ const views = ["Início", "Tarefas", "Kanban", "Rotinas", "Documentos", "Indicad
 const statuses = ["Não iniciada", "Em andamento", "Aguardando retorno", "Aguardando aprovação", "Bloqueada", "Concluída"];
 const priorities = ["Baixa", "Média", "Alta", "Crítica"];
 
+/* ── SVG Icons ────────────────────────────────────────── */
+const icons = {
+  "Início": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+  "Tarefas": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
+  "Kanban": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="12" rx="1"/></svg>,
+  "Rotinas": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>,
+  "Documentos": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+  "Indicadores": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+  "Configurações": <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
+};
+
+const iconSearch = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
+const iconPlus = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+const iconMail = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
+const iconLogout = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
+const iconClose = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const iconClock = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+const iconAlert = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>;
+const iconCheck = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+const iconRefresh = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>;
+const iconChevron = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>;
+const iconUser = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
+const iconFilter = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>;
+
 function makeEmptyTask() {
   const now = new Date();
   const competence = `${String(now.getMonth() + 1).padStart(2, "0")}/${now.getFullYear()}`;
@@ -65,8 +89,19 @@ function nextId(tasks) {
   return `BEN-${highest + 1}`;
 }
 
+function getInitials(name) {
+  if (!name) return "?";
+  return name.split(" ").map(w => w[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
+}
+
+function timeAgo(str) {
+  if (!str) return "";
+  if (str.includes("criada") || str.includes("alterado")) return str;
+  return str;
+}
+
 export function Workspace() {
-  const [currentView, setCurrentView] = useState("Kanban");
+  const [currentView, setCurrentView] = useState("Início");
   const [tasks, setTasks] = useState(seedTasks);
   const [activity, setActivity] = useState(seedActivity);
   const [query, setQuery] = useState("");
@@ -90,6 +125,11 @@ export function Workspace() {
   const [routines, setRoutines] = useState(seedTemplates);
   const [routineDraft, setRoutineDraft] = useState(emptyRoutine);
   const [memberDraft, setMemberDraft] = useState(emptyMember);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [filterStatus, setFilterStatus] = useState("");
+  const [filterPriority, setFilterPriority] = useState("");
+  const [filterOwner, setFilterOwner] = useState("");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   function toast(message, type = "success") {
     const id = Date.now() + Math.random();
@@ -107,7 +147,6 @@ export function Workspace() {
     let active = true;
 
     async function loadWorkspace() {
-      // Verificação por aba: sessionStorage é exclusivo por aba e some ao fechar
       const hasSupabase = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
       if (hasSupabase) {
         const params = new URLSearchParams(window.location.search);
@@ -186,16 +225,24 @@ export function Workspace() {
   const filteredTasks = useMemo(() => {
     return tasks.filter((task) => {
       const haystack = searchNormalize(Object.values(task).join(" "));
-      return !query || haystack.includes(searchNormalize(query));
+      if (query && !haystack.includes(searchNormalize(query))) return false;
+      if (filterStatus && task.status !== filterStatus) return false;
+      if (filterPriority && task.priority !== filterPriority) return false;
+      if (filterOwner && task.owner !== filterOwner) return false;
+      return true;
     });
-  }, [query, tasks]);
+  }, [query, tasks, filterStatus, filterPriority, filterOwner]);
 
   const metrics = useMemo(() => {
     const open = tasks.filter((task) => task.status !== "Concluída").length;
     const overdue = tasks.filter(isOverdue).length;
     const completed = tasks.filter((task) => task.status === "Concluída").length;
     const onTimeRate = tasks.length ? Math.round(((tasks.length - overdue) / tasks.length) * 100) : 0;
-    return { open, overdue, completed, onTimeRate };
+    const byStatus = {};
+    statuses.forEach(s => { byStatus[s] = tasks.filter(t => t.status === s).length; });
+    const byPriority = {};
+    priorities.forEach(p => { byPriority[p] = tasks.filter(t => t.priority === p).length; });
+    return { open, overdue, completed, onTimeRate, byStatus, byPriority, total: tasks.length };
   }, [tasks]);
 
   function pushActivity(entry) {
@@ -261,6 +308,7 @@ export function Workspace() {
 
       const updated = await response.json();
       setTasks((current) => current.map((task) => (task.id === id ? updated : task)));
+      if (selectedTask?.id === id) setSelectedTask(updated);
       if (previous && previous[field] !== value) {
         pushActivity(`${id} teve ${field} alterado de ${previous[field]} para ${value}`);
       }
@@ -268,7 +316,9 @@ export function Workspace() {
       return;
     }
 
-    setTasks((current) => current.map((task) => (task.id === id ? { ...task, [field]: value } : task)));
+    const updatedTask = { ...previous, [field]: value };
+    setTasks((current) => current.map((task) => (task.id === id ? updatedTask : task)));
+    if (selectedTask?.id === id) setSelectedTask(updatedTask);
     if (previous && previous[field] !== value) {
       pushActivity(`${id} teve ${field} alterado de ${previous[field]} para ${value}`);
     }
@@ -395,6 +445,7 @@ export function Workspace() {
 
   const ownerOptions = members.length ? members : seedMembers;
   const canSeeAll = profile && ["supervisor", "admin"].includes(profile.role);
+  const uniqueOwners = [...new Set(tasks.map(t => t.owner).filter(Boolean))];
 
   async function createDocument(event) {
     event.preventDefault();
@@ -544,6 +595,7 @@ export function Workspace() {
       return;
     }
     setTasks((current) => current.filter((task) => task.id !== id));
+    if (selectedTask?.id === id) setSelectedTask(null);
     toast("Tarefa excluída.");
   }
 
@@ -583,16 +635,22 @@ export function Workspace() {
     toast("Rotina excluída.");
   }
 
+  const overdueTasks = useMemo(() => tasks.filter(isOverdue).slice(0, 5), [tasks]);
+  const hasActiveFilters = filterStatus || filterPriority || filterOwner;
+
   return (
     <>
-      <div className="page-shell">
-        <aside className="sidebar">
+      <div className={`page-shell ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
+        {/* ── Sidebar ──────────────────────────────────────── */}
+        <aside className={`sidebar ${sidebarCollapsed ? "collapsed" : ""}`}>
           <div className="brand-card">
-            <div className="brand-mark">BO</div>
-            <div className="brand-copy">
-              <strong>Benefícios Cowork</strong>
-              <span>{canSeeAll ? "Visão da supervisão" : "Minhas tarefas"}</span>
-            </div>
+            <div className="brand-mark">BC</div>
+            {!sidebarCollapsed && (
+              <div className="brand-copy">
+                <strong>Benefícios Cowork</strong>
+                <span>Gestão de Benefícios</span>
+              </div>
+            )}
           </div>
 
           <nav className="nav-list">
@@ -601,75 +659,82 @@ export function Workspace() {
                 key={view}
                 className={view === currentView ? "nav-item active" : "nav-item"}
                 onClick={() => setCurrentView(view)}
+                title={view}
               >
-                {view}
+                <span className="nav-icon">{icons[view]}</span>
+                {!sidebarCollapsed && <span className="nav-label">{view}</span>}
               </button>
             ))}
           </nav>
 
-          <div className="sidebar-panel">
-            <p className="eyebrow">Sessão</p>
-            <strong>{profile?.full_name || "Equipe"}</strong>
-            <span>{canSeeAll ? "Supervisão" : "Colaborador"}</span>
-          </div>
+          {!sidebarCollapsed && (
+            <div className="sidebar-panel">
+              <div className="sidebar-user">
+                <div className="avatar-sm">{getInitials(profile?.full_name)}</div>
+                <div>
+                  <strong>{profile?.full_name || "Equipe"}</strong>
+                  <span>{canSeeAll ? "Supervisão" : "Colaborador"}</span>
+                </div>
+              </div>
+              <div className="sidebar-mode">
+                <span className={`mode-dot ${dataMode === "supabase" ? "live" : "demo"}`}></span>
+                <small>{dataMode === "supabase" ? "Colaborativo" : "Demo local"}</small>
+              </div>
+            </div>
+          )}
         </aside>
 
+        {/* ── Main Content ─────────────────────────────────── */}
         <main className="main-content">
           <header className="topbar">
-            <div>
-              <p className="eyebrow">Workspace do time</p>
-              <h1>Central de Operações de Benefícios</h1>
+            <div className="topbar-left">
+              <h1>{currentView}</h1>
+              <span className="topbar-breadcrumb">Workspace {canSeeAll ? "da supervisão" : "pessoal"}</span>
             </div>
             <div className="toolbar">
-              <input
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Buscar tarefa, fornecedor, POP, anexo..."
-              />
-              <button className="primary" onClick={() => setShowComposer((current) => !current)}>
-                Nova tarefa
+              <div className="search-wrap">
+                {iconSearch}
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Buscar tarefa, fornecedor, POP..."
+                />
+              </div>
+              <button className="primary btn-icon" onClick={() => setShowComposer((current) => !current)}>
+                {iconPlus}
+                <span>Nova tarefa</span>
               </button>
               {dataMode === "supabase" ? (
-                <button className="secondary" onClick={openGmailImport}>Gmail</button>
+                <button className="secondary btn-icon" onClick={openGmailImport}>
+                  {iconMail}
+                  <span>Gmail</span>
+                </button>
               ) : null}
               {dataMode === "supabase" ? (
-                <button className="ghost" onClick={signOut}>Sair</button>
+                <button className="ghost btn-icon" onClick={signOut}>
+                  {iconLogout}
+                  <span>Sair</span>
+                </button>
               ) : null}
             </div>
           </header>
 
-          <section className="hero">
-            <div className="hero-copy">
-              <p className="eyebrow">Resumo do dia</p>
-              <h2>Operação controlada, rastreável e visível</h2>
-              <div className="hero-meta">
-                <span className={`mode-dot ${dataMode === "supabase" ? "live" : "demo"}`}></span>
-                <small>{dataMode === "supabase" ? "Modo colaborativo ativo" : "Modo demo local"}</small>
-              </div>
-            </div>
-
-            <div className="hero-stats">
-              <MetricCard label="Backlog" value={metrics.open} />
-              <MetricCard label="Vencidas" value={metrics.overdue} />
-              <MetricCard label="SLA no prazo" value={`${metrics.onTimeRate}%`} />
-            </div>
-          </section>
-
+          {/* ── Composer ────────────────────────────────────── */}
           {showComposer ? (
             <section className="composer-panel">
               <div className="composer-head">
                 <h3>Nova tarefa</h3>
-                <button className="ghost" onClick={() => setShowComposer(false)}>Fechar</button>
+                <button className="ghost btn-icon" onClick={() => setShowComposer(false)}>{iconClose}</button>
               </div>
               <form className="task-form" onSubmit={createTask}>
                 <label>
                   Título
-                  <input value={draft.title} onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))} />
+                  <input value={draft.title} onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))} placeholder="Ex: Conferir fatura VR do mês" />
                 </label>
                 <label>
                   Fornecedor
-                  <input value={draft.supplier} onChange={(event) => setDraft((current) => ({ ...current, supplier: event.target.value }))} />
+                  <input value={draft.supplier} onChange={(event) => setDraft((current) => ({ ...current, supplier: event.target.value }))} placeholder="Ex: Alelo, Sodexo..." />
                 </label>
                 <div className="form-row">
                   <label>
@@ -720,10 +785,13 @@ export function Workspace() {
                 </div>
                 <label>
                   Observações
-                  <textarea rows={4} value={draft.notes} onChange={(event) => setDraft((current) => ({ ...current, notes: event.target.value }))} />
+                  <textarea rows={3} value={draft.notes} onChange={(event) => setDraft((current) => ({ ...current, notes: event.target.value }))} placeholder="Notas internas sobre esta tarefa..." />
                 </label>
                 <div className="composer-actions">
-                  <button type="button" className="secondary" onClick={refreshData}>Recarregar dados</button>
+                  <button type="button" className="secondary btn-icon" onClick={refreshData}>
+                    {iconRefresh}
+                    <span>Recarregar</span>
+                  </button>
                   <button type="submit" className="primary" disabled={isSaving}>
                     {isSaving ? "Salvando..." : "Salvar tarefa"}
                   </button>
@@ -732,7 +800,84 @@ export function Workspace() {
             </section>
           ) : null}
 
-          {currentView === "Kanban" || currentView === "Início" ? (
+          {/* ── Início / Dashboard ─────────────────────────── */}
+          {currentView === "Início" ? (
+            <>
+              <section className="dashboard-metrics">
+                <MetricCard label="Backlog" value={metrics.open} color="teal" icon={iconClock} />
+                <MetricCard label="Vencidas" value={metrics.overdue} color="red" icon={iconAlert} />
+                <MetricCard label="Concluídas" value={metrics.completed} color="green" icon={iconCheck} />
+                <MetricCard label="SLA no prazo" value={`${metrics.onTimeRate}%`} color="orange" icon={iconChevron} />
+              </section>
+
+              <section className="dashboard-grid">
+                {/* Status breakdown */}
+                <div className="dash-card">
+                  <h3>Distribuição por status</h3>
+                  <div className="status-bars">
+                    {statuses.map(s => {
+                      const count = metrics.byStatus[s] || 0;
+                      const pct = metrics.total ? Math.round((count / metrics.total) * 100) : 0;
+                      return (
+                        <div key={s} className="status-bar-row">
+                          <span className="status-bar-label">{s}</span>
+                          <div className="status-bar-track">
+                            <div className={`status-bar-fill ${normalize(s)}`} style={{ width: `${pct}%` }}></div>
+                          </div>
+                          <span className="status-bar-count">{count}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Overdue / Urgent */}
+                <div className="dash-card">
+                  <h3>Tarefas urgentes</h3>
+                  {overdueTasks.length === 0 ? (
+                    <div className="empty-state">
+                      <span className="empty-icon">{iconCheck}</span>
+                      <p>Nenhuma tarefa vencida</p>
+                    </div>
+                  ) : (
+                    <div className="urgent-list">
+                      {overdueTasks.map(task => (
+                        <button key={task.id} className="urgent-item" onClick={() => setSelectedTask(task)}>
+                          <div className="urgent-item-main">
+                            <strong>{task.title}</strong>
+                            <small>{task.id} &middot; {task.owner}</small>
+                          </div>
+                          <span className="pill vencida">{formatDate(task.dueDate)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Activity Feed */}
+                <div className="dash-card dash-card-wide">
+                  <h3>Atividade recente</h3>
+                  {activity.length === 0 ? (
+                    <div className="empty-state">
+                      <p>Nenhuma atividade registrada</p>
+                    </div>
+                  ) : (
+                    <div className="activity-feed">
+                      {activity.map((entry, i) => (
+                        <div key={i} className="activity-item">
+                          <div className="activity-dot"></div>
+                          <span>{timeAgo(entry)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </section>
+            </>
+          ) : null}
+
+          {/* ── Kanban ─────────────────────────────────────── */}
+          {currentView === "Kanban" ? (
             <section className="kanban-grid">
               {statuses
                 .filter((status) => filteredTasks.some((task) => task.status === status))
@@ -747,10 +892,12 @@ export function Workspace() {
 
                       <div className="column-body">
                         {columnTasks.map((task) => (
-                          <article key={task.id} className="task-card">
+                          <article key={task.id} className="task-card" onClick={() => setSelectedTask(task)}>
                             <div className="item-head">
                               <strong>{task.title}</strong>
-                              {canSeeAll ? <button className="mini-danger" onClick={() => removeTask(task.id)}>Excluir</button> : null}
+                              {canSeeAll ? (
+                                <button className="mini-danger" onClick={(e) => { e.stopPropagation(); removeTask(task.id); }}>Excluir</button>
+                              ) : null}
                             </div>
                             <small>{task.id}</small>
                             <div className="pill-row">
@@ -768,12 +915,42 @@ export function Workspace() {
             </section>
           ) : null}
 
+          {/* ── Tarefas (Table) ──────────────────────────────── */}
           {currentView === "Tarefas" ? (
             <section className="table-panel">
               <div className="table-head">
                 <h3>Base principal de tarefas</h3>
-                <button className="secondary" onClick={refreshData}>Recarregar dados</button>
+                <div className="table-head-actions">
+                  <button className="secondary btn-icon" onClick={refreshData}>
+                    {iconRefresh}
+                    <span>Recarregar</span>
+                  </button>
+                </div>
               </div>
+
+              {/* Filters */}
+              <div className="filter-bar">
+                <span className="filter-label">{iconFilter} Filtros</span>
+                <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+                  <option value="">Todos os status</option>
+                  {statuses.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+                <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)}>
+                  <option value="">Todas as prioridades</option>
+                  {priorities.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+                <select value={filterOwner} onChange={(e) => setFilterOwner(e.target.value)}>
+                  <option value="">Todos os responsáveis</option>
+                  {uniqueOwners.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+                {hasActiveFilters ? (
+                  <button className="ghost filter-clear" onClick={() => { setFilterStatus(""); setFilterPriority(""); setFilterOwner(""); }}>
+                    Limpar filtros
+                  </button>
+                ) : null}
+                <span className="filter-count">{filteredTasks.length} tarefa{filteredTasks.length !== 1 ? "s" : ""}</span>
+              </div>
+
               <div className="table-wrap">
                 <table>
                   <thead>
@@ -791,24 +968,31 @@ export function Workspace() {
                   </thead>
                   <tbody>
                     {filteredTasks.map((task) => (
-                      <tr key={task.id} className={isOverdue(task) ? "overdue-row" : ""}>
-                        <td>{task.id}</td>
-                        <td>{task.title}</td>
+                      <tr key={task.id} className={isOverdue(task) ? "overdue-row" : ""} onClick={() => setSelectedTask(task)} style={{ cursor: "pointer" }}>
+                        <td><span className="task-id-pill">{task.id}</span></td>
+                        <td className="td-title">{task.title}</td>
                         <td>
-                          <select value={task.status} onChange={(event) => updateTask(task.id, "status", event.target.value)}>
+                          <select value={task.status} onClick={(e) => e.stopPropagation()} onChange={(event) => updateTask(task.id, "status", event.target.value)}>
                             {statuses.map((status) => <option key={status} value={status}>{status}</option>)}
                           </select>
                         </td>
                         <td>
-                          <select value={task.priority} onChange={(event) => updateTask(task.id, "priority", event.target.value)}>
+                          <select value={task.priority} onClick={(e) => e.stopPropagation()} onChange={(event) => updateTask(task.id, "priority", event.target.value)}>
                             {priorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
                           </select>
                         </td>
-                        <td>{task.owner}</td>
+                        <td>
+                          <span className="owner-cell">
+                            <span className="avatar-xs">{getInitials(task.owner)}</span>
+                            {task.owner}
+                          </span>
+                        </td>
                         <td>{task.supplier}</td>
                         <td>{task.competence}</td>
-                        <td>{formatDate(task.dueDate)}</td>
-                        <td>{canSeeAll ? <button className="mini-danger" onClick={() => removeTask(task.id)}>Excluir</button> : null}</td>
+                        <td className={isOverdue(task) ? "td-overdue" : ""}>{formatDate(task.dueDate)}</td>
+                        <td onClick={(e) => e.stopPropagation()}>
+                          {canSeeAll ? <button className="mini-danger" onClick={() => removeTask(task.id)}>Excluir</button> : null}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -817,6 +1001,7 @@ export function Workspace() {
             </section>
           ) : null}
 
+          {/* ── Rotinas ────────────────────────────────────── */}
           {currentView === "Rotinas" ? (
             <section className="simple-grid two">
               <section className="simple-panel">
@@ -835,7 +1020,10 @@ export function Workspace() {
                   {routines.map((item) => (
                     <div key={item.id || item.name} className="simple-item">
                       <div className="item-head">
-                        <strong>{item.name} • {item.rule}</strong>
+                        <div>
+                          <strong>{item.name}</strong>
+                          <small>{item.rule}{item.sla ? ` • SLA: ${item.sla}` : ""}</small>
+                        </div>
                         {canSeeAll ? <button className="mini-danger" onClick={() => removeRoutine(item.id)}>Excluir</button> : null}
                       </div>
                     </div>
@@ -846,6 +1034,7 @@ export function Workspace() {
             </section>
           ) : null}
 
+          {/* ── Documentos ─────────────────────────────────── */}
           {currentView === "Documentos" ? (
             <section className="documents-layout">
               <section className="simple-panel document-composer">
@@ -897,10 +1086,12 @@ export function Workspace() {
                     {documents.map((document) => (
                       <div key={document.id} className="simple-item">
                         <div className="item-head">
-                          <strong>{document.title}</strong>
+                          <div>
+                            <strong>{document.title}</strong>
+                            <small>{document.category}</small>
+                          </div>
                           {canSeeAll ? <button className="mini-danger" onClick={() => removeDocument(document.id)}>Excluir</button> : null}
                         </div>
-                        <small>{document.category}</small>
                       </div>
                     ))}
                   </div>
@@ -930,15 +1121,102 @@ export function Workspace() {
             </section>
           ) : null}
 
+          {/* ── Indicadores ────────────────────────────────── */}
           {currentView === "Indicadores" ? (
-            <section className="indicator-row">
-              <MetricCard label="Backlog" value={metrics.open} />
-              <MetricCard label="Vencidas" value={metrics.overdue} />
-              <MetricCard label="Concluídas" value={metrics.completed} />
-              <MetricCard label="SLA no prazo" value={`${metrics.onTimeRate}%`} />
-            </section>
+            <>
+              <section className="dashboard-metrics">
+                <MetricCard label="Total de tarefas" value={metrics.total} color="teal" icon={iconClock} />
+                <MetricCard label="Em aberto" value={metrics.open} color="orange" icon={iconAlert} />
+                <MetricCard label="Concluídas" value={metrics.completed} color="green" icon={iconCheck} />
+                <MetricCard label="SLA no prazo" value={`${metrics.onTimeRate}%`} color={metrics.onTimeRate >= 80 ? "green" : "red"} icon={iconChevron} />
+              </section>
+
+              <section className="dashboard-grid">
+                <div className="dash-card">
+                  <h3>Por status</h3>
+                  <div className="status-bars">
+                    {statuses.map(s => {
+                      const count = metrics.byStatus[s] || 0;
+                      const pct = metrics.total ? Math.round((count / metrics.total) * 100) : 0;
+                      return (
+                        <div key={s} className="status-bar-row">
+                          <span className="status-bar-label">{s}</span>
+                          <div className="status-bar-track">
+                            <div className={`status-bar-fill ${normalize(s)}`} style={{ width: `${pct}%` }}></div>
+                          </div>
+                          <span className="status-bar-count">{count} ({pct}%)</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="dash-card">
+                  <h3>Por prioridade</h3>
+                  <div className="status-bars">
+                    {priorities.map(p => {
+                      const count = metrics.byPriority[p] || 0;
+                      const pct = metrics.total ? Math.round((count / metrics.total) * 100) : 0;
+                      return (
+                        <div key={p} className="status-bar-row">
+                          <span className="status-bar-label">{p}</span>
+                          <div className="status-bar-track">
+                            <div className={`status-bar-fill ${normalize(p)}`} style={{ width: `${pct}%` }}></div>
+                          </div>
+                          <span className="status-bar-count">{count} ({pct}%)</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="dash-card">
+                  <h3>Vencidas</h3>
+                  <div className="indicator-big-number">
+                    <strong className={metrics.overdue > 0 ? "text-red" : "text-green"}>{metrics.overdue}</strong>
+                    <span>tarefa{metrics.overdue !== 1 ? "s" : ""} vencida{metrics.overdue !== 1 ? "s" : ""}</span>
+                  </div>
+                  {overdueTasks.length > 0 && (
+                    <div className="urgent-list" style={{ marginTop: 12 }}>
+                      {overdueTasks.map(task => (
+                        <button key={task.id} className="urgent-item" onClick={() => setSelectedTask(task)}>
+                          <div className="urgent-item-main">
+                            <strong>{task.title}</strong>
+                            <small>{task.id} &middot; {task.owner}</small>
+                          </div>
+                          <span className="pill vencida">{formatDate(task.dueDate)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="dash-card">
+                  <h3>Por responsável</h3>
+                  <div className="status-bars">
+                    {uniqueOwners.map(owner => {
+                      const count = tasks.filter(t => t.owner === owner).length;
+                      const pct = metrics.total ? Math.round((count / metrics.total) * 100) : 0;
+                      return (
+                        <div key={owner} className="status-bar-row">
+                          <span className="status-bar-label">
+                            <span className="avatar-xs">{getInitials(owner)}</span>
+                            {owner}
+                          </span>
+                          <div className="status-bar-track">
+                            <div className="status-bar-fill teal-fill" style={{ width: `${pct}%` }}></div>
+                          </div>
+                          <span className="status-bar-count">{count}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+            </>
           ) : null}
 
+          {/* ── Configurações ──────────────────────────────── */}
           {currentView === "Configurações" ? (
             <section className="simple-grid two">
               <section className="simple-panel">
@@ -980,9 +1258,12 @@ export function Workspace() {
                   {members.map((member) => (
                     <div key={member.email} className="simple-item">
                       <div className="item-head">
-                        <div>
-                          <strong>{member.full_name}</strong>
-                          <small>{member.email}</small>
+                        <div className="member-info">
+                          <span className="avatar-sm">{getInitials(member.full_name)}</span>
+                          <div>
+                            <strong>{member.full_name}</strong>
+                            <small>{member.email}</small>
+                          </div>
                         </div>
                         {canSeeAll ? (
                           <div className="member-actions">
@@ -1012,6 +1293,79 @@ export function Workspace() {
         </main>
       </div>
 
+      {/* ── Task Detail Drawer ──────────────────────────── */}
+      {selectedTask && (
+        <div className="drawer-overlay" onClick={() => setSelectedTask(null)}>
+          <aside className="drawer" onClick={(e) => e.stopPropagation()}>
+            <div className="drawer-head">
+              <div>
+                <span className="task-id-pill">{selectedTask.id}</span>
+                <h2>{selectedTask.title}</h2>
+              </div>
+              <button className="ghost btn-icon" onClick={() => setSelectedTask(null)}>{iconClose}</button>
+            </div>
+
+            <div className="drawer-body">
+              <div className="drawer-field">
+                <label>Status</label>
+                <select value={selectedTask.status} onChange={(e) => updateTask(selectedTask.id, "status", e.target.value)}>
+                  {statuses.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+              <div className="drawer-field">
+                <label>Prioridade</label>
+                <select value={selectedTask.priority} onChange={(e) => updateTask(selectedTask.id, "priority", e.target.value)}>
+                  {priorities.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+              <div className="drawer-field">
+                <label>Responsável</label>
+                <div className="owner-cell">
+                  <span className="avatar-sm">{getInitials(selectedTask.owner)}</span>
+                  <span>{selectedTask.owner || "Não atribuído"}</span>
+                </div>
+              </div>
+              <div className="drawer-row">
+                <div className="drawer-field">
+                  <label>Fornecedor</label>
+                  <span>{selectedTask.supplier || "—"}</span>
+                </div>
+                <div className="drawer-field">
+                  <label>Competência</label>
+                  <span>{selectedTask.competence || "—"}</span>
+                </div>
+              </div>
+              <div className="drawer-row">
+                <div className="drawer-field">
+                  <label>Vencimento</label>
+                  <span className={isOverdue(selectedTask) ? "text-red" : ""}>
+                    {formatDate(selectedTask.dueDate)}
+                    {isOverdue(selectedTask) && " (vencida)"}
+                  </span>
+                </div>
+                <div className="drawer-field">
+                  <label>Categoria</label>
+                  <span>{selectedTask.category || "—"}</span>
+                </div>
+              </div>
+              {selectedTask.notes && (
+                <div className="drawer-field">
+                  <label>Observações</label>
+                  <div className="drawer-notes">{selectedTask.notes}</div>
+                </div>
+              )}
+            </div>
+
+            {canSeeAll && (
+              <div className="drawer-footer">
+                <button className="mini-danger" onClick={() => removeTask(selectedTask.id)}>Excluir tarefa</button>
+              </div>
+            )}
+          </aside>
+        </div>
+      )}
+
+      {/* ── Gmail Import Modal ─────────────────────────── */}
       {showGmailModal && (
         <div className="confirm-overlay" onClick={() => setShowGmailModal(false)}>
           <div className="gmail-modal" onClick={(e) => e.stopPropagation()}>
@@ -1020,7 +1374,7 @@ export function Workspace() {
                 <h3>Importar do Gmail</h3>
                 <small>Emails não lidos — selecione os que virarão tarefas</small>
               </div>
-              <button className="ghost" onClick={() => setShowGmailModal(false)}>Fechar</button>
+              <button className="ghost btn-icon" onClick={() => setShowGmailModal(false)}>{iconClose}</button>
             </div>
 
             {gmailLoading ? (
@@ -1101,10 +1455,13 @@ export function Workspace() {
   );
 }
 
-function MetricCard({ label, value }) {
+function MetricCard({ label, value, color = "teal", icon }) {
   return (
-    <article className="metric-card">
-      <span>{label}</span>
+    <article className={`metric-card metric-${color}`}>
+      <div className="metric-header">
+        <span>{label}</span>
+        {icon && <span className="metric-icon">{icon}</span>}
+      </div>
       <strong>{value}</strong>
     </article>
   );
